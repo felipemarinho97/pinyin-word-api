@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+var request = require("request");
 
 const app = express();
 
@@ -10,7 +11,8 @@ app.get("/:pinyin", (req, res) => {
   const word = req.param("pinyin");
 
   axios.get(`${YABLA_URI}?define=${encodeURI(word)}`).then((_res) => {
-    res.json({ url: (_res.data + "").match(/https.*\.mp3/)[0] });
+    const URI = (_res.data + "").match(/https.*\.mp3/)[0];
+    req.pipe(request(URI)).pipe(res);
   });
 });
 
