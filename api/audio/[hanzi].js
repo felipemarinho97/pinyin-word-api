@@ -24,10 +24,10 @@ const allowCors = (fn) => async (req, res) => {
 
 export default allowCors((req, res) => {
   const {
-    query: { pinyin },
+    query: { hanzi },
   } = req;
 
-  axios.get(`${YABLA_URI}?define=${encodeURI(pinyin)}`).then((_res) => {
+  axios.get(`${YABLA_URI}?define=${encodeURI(hanzi)}`).then((_res) => {
     const URI = (_res.data + "").match(/https.*\.mp3/)[0];
     req.pipe(request(URI)).pipe(res);
   });
