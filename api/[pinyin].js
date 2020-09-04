@@ -4,9 +4,11 @@ const YABLA_URI =
   "https://chinese.yabla.com/chinese-english-pinyin-dictionary.php";
 
 export default (req, res) => {
-  const word = req.param("pinyin");
+  const {
+    query: { pinyin },
+  } = req;
 
-  axios.get(`${YABLA_URI}?define=${encodeURI(word)}`).then((_res) => {
+  axios.get(`${YABLA_URI}?define=${encodeURI(pinyin)}`).then((_res) => {
     res.json({ url: (_res.data + "").match(/https.*\.mp3/)[0] });
   });
 };
