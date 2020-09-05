@@ -15,6 +15,8 @@ const allowCors = (fn) => async (req, res) => {
     "Access-Control-Allow-Headers",
     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
   );
+  res.setHeader("Cache-Control", "max-age=0, s-maxage=31536000");
+
   if (req.method === "OPTIONS") {
     res.status(200).end();
     return;
@@ -28,7 +30,11 @@ export default allowCors((req, res) => {
   } = req;
 
   axios.get(`${YABLA_URI}?define=${encodeURI(hanzi)}`).then((_res) => {
-    const URI = (_res.data + "").match(/https.*\.mp3/)[0];
-    req.pipe(request(URI)).pipe(res);
+    let URI = (_res.data + "").match(/https.*\.mp3/)[0];
+    let file = URI.match(/[0-9]*\.mp3/)[0];
+
+    req
+      .pipe(request(`https://yabla.vo.llnwd.net/media.yabla.com/audio/${file}`))
+      .pipe(res);
   });
 });
