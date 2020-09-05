@@ -12,13 +12,26 @@ app.get("/:pinyin", (req, res) => {
   res.setHeader("Cache-Control", "max-age=0, s-maxage=31536000");
 
   axios.get(`${YABLA_URI}?define=${encodeURI(word)}&limit=1`).then((_res) => {
-    let URI = (_res.data + "").match(/https.*\.mp3/)[0];
+    let URI = (_res.data + "").match(/https?.*\.mp3/)[0];
     let file = URI.match(/[0-9]*\.mp3/)[0];
 
     req
       .pipe(request(`https://yabla.vo.llnwd.net/media.yabla.com/audio/${file}`))
       .pipe(res);
   });
+});
+
+app.get("/pod/:pinyin", (req, res) => {
+  const word = req.param("pinyin");
+  res.setHeader("Cache-Control", "max-age=0, s-maxage=31536000");
+
+  axios
+    .get(`https://chinesepod.com/dictionary/english-chinese/${encodeURI(word)}`)
+    .then((_res) => {
+      let URI = (_res.data + "").match(/https?.*\.mp3/)[0];
+
+      req.pipe(request(unescape(URI))).pipe(res);
+    });
 });
 
 app.listen(8889, () => {
