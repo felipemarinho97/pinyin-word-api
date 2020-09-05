@@ -22,7 +22,7 @@ const allowCors = (fn) => async (req, res) => {
 
 export default allowCors((req, res) => {
   const {
-    query: { text },
+    body: { text },
   } = req;
 
   res.json({ segment: segment(text) });
