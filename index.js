@@ -34,8 +34,10 @@ app.get("/pod/:pinyin", (req, res) => {
     });
 });
 var { segment } = require("hanzi-tools");
-app.get("/segment/:text", (req, res) => {
-  const text = req.param("text");
+app.post("/segment", (req, res) => {
+  console.log(req.body);
+  const text = req.body.text;
+
   res.setHeader("Cache-Control", "max-age=0, s-maxage=31536000");
 
   res.json({ segment: segment(text) });
