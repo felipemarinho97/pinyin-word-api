@@ -8,14 +8,41 @@
   <body>
     <b>GET</b> /api/:hanzi
     <br />
-    { url: "string" }
+    Response: { url: "string" }
+    <p>
+      Get a link for a audio pronunciation of a given <i>hanzi</i> from
+      Yabla.com
+    </p>
     <br />
     <b>GET</b> /api/audio/:hanzi
     <br />
-    Audio Blob
+    Response: Audio Blob
+    <p>Get a audio pronunciation file of a given <i>hanzi</i> from Yabla.com</p>
     <br />
-    <b>GET</b> /api/segment/:text
+    <b>GET</b> /api/audio/pod/:hanzi
     <br />
-    { segment: string[] }
+    Response: Audio Blob (From ChinesePod)
+    <p>
+      Get a audio pronunciation file of a given <i>hanzi</i> from ChinesePod.com
+    </p>
+    <br />
+    <b>POST</b> /api/segment
+    <br />
+    body: { text: string }
+    <br />
+    Response: { segment: string[] }
+    <p>
+      Segment the given chinese phrase into words. ex: "我在青岛市崂山区工作。"
+      returns [ '我', '在', '青岛市', '崂山区', '工作', '。' ]
+    </p>
+    <br />
+    <b>GET</b> /api/links/:hanzi
+    <br />
+    Response: { "Wikitionary": string , "HSK Academy": string ,
+    "AllSetLearning": string }
+    <p>
+      Get links for more <i>in depth</i> explanation from a given word.
+      Supported websites: Wikitionary, AllSetLearning and HSK Academy.
+    </p>
   </body>
 </html>
