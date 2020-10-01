@@ -54,5 +54,13 @@
       Support filtering by: includeAudio (0 or 1), level (Newbie, Elementary,
       Intermediate, Upper-Intermediate).
     </p>
+    <b>GET</b> /api/lookup/:word
+    <br />
+    Response: { simplified: string, rank: Number | undefined, entries: {
+    traditional: string, pinyin: string, definitions: string[] } }
+    <p>
+      Lookup the given word and return a entry from cc-cedit dictionary
+      containing definitions.
+    </p>
   </body>
 </html>
