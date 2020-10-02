@@ -8,6 +8,7 @@ const KEYS = {
   ENTRIES: 3,
   DEFINITIONS: 4,
   RANK: 5,
+  HSK: 6,
 };
 
 export default allowCors((req, res) => {
@@ -25,6 +26,7 @@ export default allowCors((req, res) => {
   res.json({
     simplified: entry[KEYS.SIMPLIFIED],
     rank: entry[KEYS.RANK],
+    hsk: entry[KEYS.HSK],
     entries: entry[KEYS.ENTRIES].map((en) => {
       return {
         traditional: en[KEYS.TRADITIONAL],
