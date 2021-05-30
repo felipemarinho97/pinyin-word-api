@@ -9,35 +9,27 @@ export default allowCors((req, res) => {
   } = req;
 
   axios
-    .get(`https://chinesepod.com/dictionary/english-chinese/${encodeURI(word)}`)
+    .get(`https://www.chinesepod.com/dictionary/${encodeURI(word)}`)
     .then((_res) => {
       const sentences = [];
       const body = _res.data + "";
       const $ = cheerio.load(body);
 
-      const rows = $(".table.table-striped.table-grossary tr");
+      let code = $("body > script")
+        .html()
+        .replace(/^(.*?)=/, "");
 
-      rows.each((i, e) => {
-        let text = $(e.childNodes[1])
-          .text()
-          .split("\t")
-          .filter((e) => !e.trim().match(/(^$|\n)/))
-          .map((e) => e.trim());
-        let audio;
+      let data = eval(code);
 
-        e.childNodes[3].children.forEach((child) => {
-          if (child.name == "script") {
-            try {
-              audio = child.children[0].data.match(/http.*mp3/)[0];
-            } catch {}
-          }
+      data.data[0].sampleSentenceList.forEach((e) => {
+        console.log(e, data.data[0].sampleSentenceList);
+        sentences.push({
+          hanzi: e.simplified,
+          pinyin: e.pinyin,
+          translation: e.english,
+          audio: e.audioUrl,
+          level: e.lessonInfo.level,
         });
-
-        const level = $(e.childNodes[5].children[1]).text();
-
-        const [hanzi, pinyin, translation] = [...text];
-
-        sentences.push({ hanzi, pinyin, translation, audio, level });
       });
 
       res.json(

@@ -6,14 +6,11 @@ export default allowCors((req, res) => {
   const {
     query: { hanzi },
   } = req;
-
   axios
-    .get(
-      `https://chinesepod.com/dictionary/english-chinese/${encodeURI(hanzi)}`
-    )
+    .get(`https://www.chinesepod.com/dictionary/${encodeURI(hanzi)}`)
     .then((_res) => {
-      let URI = (_res.data + "").match(/https?.*\.mp3/)[0];
+      let URI = (_res.data + "").match(/"https?(.*?)\.mp3"/)[0];
 
-      req.pipe(request(unescape(URI))).pipe(res);
+      req.pipe(request(JSON.parse(URI))).pipe(res);
     });
 });
