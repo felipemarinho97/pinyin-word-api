@@ -3,17 +3,27 @@
 **GET** /api/:hanzi  
 Response: { url: "string" }
 
-Get a link for a audio pronunciation of a given _hanzi_ from Yabla.com
+Get a link for a audio pronunciation of a given _hanzi_ from ChinesePod.com or HSK Academy.
 
 **GET** /api/audio/:hanzi  
 Response: Audio Blob
 
-Get a audio pronunciation file of a given _hanzi_ from Yabla.com
+Get a audio pronunciation file of a given _hanzi_ from ChinesePod.com or HSK Academy.
 
 **GET** /api/audio/pod/:hanzi  
 Response: Audio Blob (From ChinesePod)
 
 Get a audio pronunciation file of a given _hanzi_ from ChinesePod.com
+
+**GET** /api/audio/hsk_academy/:hanzi  
+Response: Audio Blob (From HSK Academy)
+
+Get a audio pronunciation file of a given _hanzi_ from HSK Academy.
+
+**GET** /api/audio/yabla/:hanzi  
+Response: Audio Blob (From Yabla)
+
+Get a audio pronunciation file of a given _hanzi_ from Yabla.com (not working).
 
 **POST** /api/segment  
 body: { text: string }  

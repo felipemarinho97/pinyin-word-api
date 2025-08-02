@@ -1,5 +1,4 @@
 const axios = require("axios");
-const cheerio = require("cheerio");
 
 const { allowCors } = require("../../util");
 
@@ -9,26 +8,24 @@ export default allowCors((req, res) => {
   } = req;
 
   axios
-    .get(`https://www.chinesepod.com/dictionary/${encodeURI(word)}`)
+    .get(`https://www.chinesepod.com/api/v1/search/search-dictionary/?query=${encodeURI(word)}&skip=0`)
     .then((_res) => {
+      
       const sentences = [];
-      const body = _res.data + "";
-      const $ = cheerio.load(body);
+      if (_res.data.count === 0) {
+        res.status(404).send("No sentences found for the given word.");
+        return;
+      }
 
-      let code = $("body > script")
-        .html()
-        .replace(/^(.*?)=/, "");
-
-      let data = eval(code);
-
-      data.data[0].sampleSentenceList.forEach((e) => {
-        console.log(e, data.data[0].sampleSentenceList);
+      _res.data.results.forEach((e) => {
         sentences.push({
           hanzi: e.simplified,
           pinyin: e.pinyin,
-          translation: e.english,
+          translation: e.definitions[0],
+          definition: e.definition,
+          definitions: e.definitions,
           audio: e.audioUrl,
-          level: e.lessonInfo.level,
+          level: e.hsk,
         });
       });
 

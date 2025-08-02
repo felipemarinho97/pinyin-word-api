@@ -11,19 +11,33 @@
     Response: { url: "string" }
     <p>
       Get a link for a audio pronunciation of a given <i>hanzi</i> from
-      Yabla.com
+      ChinesePod.com or HSK Academy.
     </p>
     <br />
     <b>GET</b> /api/audio/:hanzi
     <br />
     Response: Audio Blob
-    <p>Get a audio pronunciation file of a given <i>hanzi</i> from Yabla.com</p>
+    <p>Get a audio pronunciation file of a given <i>hanzi</i> from ChinesePod.com or HSK Academy.</p>
     <br />
     <b>GET</b> /api/audio/pod/:hanzi
     <br />
     Response: Audio Blob (From ChinesePod)
     <p>
       Get a audio pronunciation file of a given <i>hanzi</i> from ChinesePod.com
+    </p>
+    <br />
+    <b>GET</b> /api/audio/hsk_academy/:hanzi
+    <br />
+    Response: Audio Blob (From HSK Academy)
+    <p>
+      Get a audio pronunciation file of a given <i>hanzi</i> from HSK Academy.
+    </p>
+    <br />
+    <b>GET</b> /api/audio/yabla/:hanzi
+    <br />
+    Response: Audio Blob (From Yabla)
+    <p>
+      Get a audio pronunciation file of a given <i>hanzi</i> from Yabla.com (not working).
     </p>
     <br />
     <b>POST</b> /api/segment

@@ -7,10 +7,20 @@ export default allowCors((req, res) => {
     query: { hanzi },
   } = req;
   axios
-    .get(`https://www.chinesepod.com/dictionary/${encodeURI(hanzi)}`)
+    .get(`https://www.chinesepod.com/api/v1/search/search-dictionary/?query=${encodeURI(hanzi)}&skip=0&limit=1`)
     .then((_res) => {
-      let URI = (_res.data + "").match(/"https?(.*?)\.mp3"/)[0];
+      let data = _res.data;
+      if (data.count === 0) {
+        res.status(404).send("No audio found for the given Hanzi.");
+        return;
+      }
+      let URI = data.results[0].audioUrl;
+      if (!URI) {
+        res.status(404).send("No audio URL found for the given Hanzi.");
+        return;
+      }
 
-      req.pipe(request(JSON.parse(URI))).pipe(res);
+      req.pipe(request(URI)).pipe(res);
     });
 });
+
